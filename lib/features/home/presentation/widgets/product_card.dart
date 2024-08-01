@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
+import '../../../../core/common/widgets/app_cached_image.dart';
 import '../../domain/entities/product_entity.dart';
 
 class ProductCard extends StatelessWidget {
@@ -19,10 +20,10 @@ class ProductCard extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
-                child: Image.network(
-                  product.thumbnail ?? '',
-                  width: 70,
-                  height: 70,
+                child: AppCachedImage(
+                  imageUrl: product.thumbnail ?? '',
+                  height: 100,
+                  width: 100,
                 ),
               ),
             ),
