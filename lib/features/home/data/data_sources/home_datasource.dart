@@ -20,9 +20,12 @@ class HomeDatasourceImpl implements HomeDatasource {
   @override
   Future<ResponseWrapper> getProducts(GetProductsParams params) async {
     try {
-      final response = await _api.get(endPoint: EndPoints.products.getProducts);
+      final response = await _api.get(
+        endPoint: EndPoints.products.getProducts,
+        queryParameters: params.toParams(),
+      );
 
-      return ResponseWrapper.fromJson(response);
+      return ResponseWrapper.fromJson(response, dataKey: "products");
     } on BaseAppException catch (e) {
       debugPrint("error in getProducts in HomeDatasourceImpl => $e");
       throw e.message;

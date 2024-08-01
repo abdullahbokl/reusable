@@ -8,26 +8,23 @@ class ProductsCount extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final clientsAcceptCubit = context.read<HomeCubit>();
+    final productsCubit = context.read<HomeCubit>();
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Text(
-          'عدد العملاء: ',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
+        Text(
+          'Total Products',
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
         ),
         BlocBuilder<HomeCubit, HomeState>(
           builder: (context, state) {
             return Text(
-              "${clientsAcceptCubit.pageVariables.filteredList.length}",
-              // "${clientsAcceptCubit.pageVariables.allClientsList.length}/${clientsAcceptCubit.pageVariables.totalClientsCount}",
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+              "${productsCubit.pageVariables.allList.length}/${productsCubit.pageVariables.totalClientsCount}",
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
             );
           },
         ),

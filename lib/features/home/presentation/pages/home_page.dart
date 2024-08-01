@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:reusable/core/helpers/bloc_status.dart';
+import 'package:reusable/features/home/presentation/pages/animated_bloc_body_builder.dart';
 
-import '../../../../../core/common/widgets/app_loader.dart';
 import '../../../../core/common/widgets/app_error_widget.dart';
-import '../../../../core/common/widgets/app_filter_icon.dart';
 import '../../../../core/common/widgets/app_search_widget.dart';
 import '../manager/home_cubit.dart';
-import '../widgets/filter_products_sheet.dart';
 import '../widgets/products_count.dart';
 import '../widgets/products_paginated_list.dart';
+import '../widgets/shimmer_products_list.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,7 +18,8 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _SupportClientAcceptState();
 }
 
-class _SupportClientAcceptState extends State<HomePage> {
+class _SupportClientAcceptState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
   late final HomeCubit _homeCubit;
 
   @override
@@ -34,10 +36,11 @@ class _SupportClientAcceptState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text('Home').animate().fade().scale(),
+      ),
       body: Column(
         children: [
-          const SizedBox(height: 15),
           Row(
             children: [
               Flexible(
@@ -48,16 +51,16 @@ class _SupportClientAcceptState extends State<HomePage> {
                   },
                 ),
               ),
-              Flexible(
-                child: AppFilterIcon<bool>(
-                  child: const FilterProductsSheet(),
-                  onResult: (result) {
-                    if (result != true) {
-                      _homeCubit.returnToPreviousState();
-                    }
-                  },
-                ),
-              ),
+              // Flexible(
+              //   child: AppFilterIcon<bool>(
+              //     child: const FilterProductsSheet(),
+              //     onResult: (result) {
+              //       if (result != true) {
+              //         _homeCubit.returnToPreviousState();
+              //       }
+              //     },
+              //   ),
+              // ),
             ],
           ),
           const SizedBox(height: 15),
@@ -76,14 +79,17 @@ class _SupportClientAcceptState extends State<HomePage> {
                       _homeCubit.pageVariables.isNewFilter;
                 },
                 builder: (context, state) {
-                  return state.getProductsStatus.when(
-                    initial: () => const AppLoader(),
-                    loading: () => const AppLoader(),
-                    success: (data) => const ProductsPaginatedList(),
-                    empty: () => const AppErrorWidget(message: 'No data found'),
-                    failure: (error, data) => AppErrorWidget(
-                      message: error,
-                      onPressed: () => _homeCubit.getProducts(),
+                  _homeCubit.state.copyWith(
+                    getProductsStatus: const BlocStatus.empty(),
+                  );
+                  return AnimatedBlocBodyBuilder(
+                    child: state.getProductsStatus.when(
+                      loading: () => const ShimmerProductsList(),
+                      success: (data) => const ProductsPaginatedList(),
+                      failure: (error, data) => AppErrorWidget(
+                        message: error,
+                        onPressed: () => _homeCubit.getProducts(),
+                      ),
                     ),
                   );
                 },

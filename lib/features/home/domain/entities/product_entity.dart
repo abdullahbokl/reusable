@@ -37,4 +37,15 @@ class ProductEntity extends Equatable {
       thumbnail,
     ];
   }
+
+  bool searchString(String text) {
+    String searchIn = title;
+
+    if (description != null) searchIn += description!;
+    if (category != null) searchIn += category!;
+    if (tags != null) searchIn += tags!.join();
+    if (brand != null) searchIn += brand!;
+
+    return searchIn.toLowerCase().contains(text.toLowerCase());
+  }
 }

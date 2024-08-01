@@ -1,8 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
-import 'package:reusable/core/common/usecases/usecase.dart';
-import 'package:reusable/core/helpers/response_wrapper.dart';
-import 'package:reusable/features/home/domain/repositories/home_repo.dart';
+
+import '../../../../core/common/usecases/usecase.dart';
+import '../../../../core/helpers/response_wrapper.dart';
+import '../repositories/home_repo.dart';
 
 @lazySingleton
 class GetProductsUsecase
@@ -19,8 +20,6 @@ class GetProductsUsecase
   }
 }
 
-// ?limit=10&skip=10&select=title,price
-
 class GetProductsParams {
   final int limit;
   final int skip;
@@ -29,6 +28,15 @@ class GetProductsParams {
   const GetProductsParams({
     this.limit = 10,
     this.skip = 0,
-    this.select = 'title,price',
+    this.select =
+        'id,title,price,description,category,rating,tags,brand,thumbnail',
   });
+
+  Map<String, dynamic> toParams() {
+    return {
+      'limit': limit,
+      'skip': skip,
+      'select': select,
+    };
+  }
 }

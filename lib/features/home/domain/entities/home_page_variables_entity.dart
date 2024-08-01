@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 
+import 'product_entity.dart';
+
 class HomePageVariablesEntity {
-  List<dynamic> allList = [];
-  List<dynamic> filteredList = [];
+  List<ProductEntity> allList = [];
+  List<ProductEntity> filteredList = [];
   TextEditingController searchController = TextEditingController();
   int totalClientsCount = 0;
 

@@ -28,25 +28,22 @@ class AppPaginatedList extends StatefulWidget {
 }
 
 class _AppPaginatedListState extends State<AppPaginatedList> {
-  late final bool showLoading;
   late final ScrollController scrollController;
 
   @override
   void initState() {
-    showLoading = widget.isLoading && !widget.hasReachedMax;
     scrollController = widget.scrollController ?? ScrollController();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final bool showLoading = widget.isLoading && !widget.hasReachedMax;
     return ListView.separated(
       cacheExtent: 20,
       controller: scrollController
         ..addListener(() {
-          if (_doLoadMore()) {
-            widget.onLoadMore?.call();
-          }
+          if (_doLoadMore()) widget.onLoadMore?.call();
         }),
       itemCount: widget.items.length + (showLoading ? 1 : 0),
       itemBuilder: (context, index) {

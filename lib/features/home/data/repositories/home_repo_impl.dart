@@ -1,11 +1,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
-import 'package:reusable/core/helpers/response_wrapper.dart';
 
+import '../../../../core/helpers/response_wrapper.dart';
 import '../../domain/repositories/home_repo.dart';
 import '../../domain/use_cases/get_products_use_case.dart';
 import '../data_sources/home_datasource.dart';
+import '../models/product_model.dart';
 
 @LazySingleton(as: HomeRepo)
 class HomeRepoImpl implements HomeRepo {
@@ -19,7 +20,11 @@ class HomeRepoImpl implements HomeRepo {
   ) async {
     try {
       final response = await _dataSource.getProducts(params);
-      return Right(response);
+      return Right(response.copyWith(
+        data: List<ProductModel>.from(
+          response.data.map((e) => ProductModel.fromJson(e)),
+        ),
+      ));
     } catch (e) {
       debugPrint("error in getProducts in HomeRepoImpl => $e");
       return Left(e.toString());

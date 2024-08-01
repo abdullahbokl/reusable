@@ -40,10 +40,10 @@ class HomeCubit extends Cubit<HomeState> {
         }
         if (pageVariables.hasReachedMax) return;
 
-        emit(state.copyWith(getProductsStatus: BlocStatus.loading()));
+        emit(state.copyWith(getProductsStatus: const BlocStatus.loading()));
         filterEntity.savePreviousState();
         final result = await _getProductsUsecase(
-          GetProductsParams(),
+          GetProductsParams(skip: pageVariables.allList.length),
         );
         result.fold(
           (e) => emit(state.copyWith(
@@ -52,16 +52,16 @@ class HomeCubit extends Cubit<HomeState> {
           (value) {
             pageVariables.allList.addAll(value.data);
             pageVariables.totalClientsCount = value.total ?? 0;
+            print("hasReachedMax: ${pageVariables.hasReachedMax}");
             pageVariables.hasReachedMax = value.data.isEmpty;
-            filterProducts();
+            print("hasReachedMax: ${pageVariables.hasReachedMax}");
             if (pageVariables.allList.isEmpty) {
               return emit(state.copyWith(
-                getProductsStatus: BlocStatus.empty(),
+                getProductsStatus: const BlocStatus.empty(),
               ));
             }
-            emit(state.copyWith(
-              getProductsStatus: BlocStatus.success(),
-            ));
+            filterProducts();
+            emit(state.copyWith(getProductsStatus: const BlocStatus.success()));
           },
         );
       },
@@ -71,9 +71,6 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   void filterProducts() {
-    emit(state.copyWith(
-      filterProductsStatus: const BlocStatus.loading(),
-    ));
     if (pageVariables.searchController.text.isEmpty) {
       pageVariables.filteredList = pageVariables.allList;
     } else {
@@ -83,9 +80,6 @@ class HomeCubit extends Cubit<HomeState> {
         },
       ).toList();
     }
-    emit(state.copyWith(
-      filterProductsStatus: const BlocStatus.success(),
-    ));
   }
 
   void returnToPreviousState() {
