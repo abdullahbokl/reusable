@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/common/widgets/app_paginated_list.dart';
+import '../../../../core/common/widgets/app_paginated_grid.dart';
 import '../manager/home_cubit.dart';
-import 'product_card_list.dart';
+import 'product_card_grid.dart';
 
-class ProductsPaginatedList extends StatelessWidget {
-  const ProductsPaginatedList({
-    super.key,
-  });
+class ProductsPaginatedGrid extends StatelessWidget {
+  const ProductsPaginatedGrid({super.key});
 
   @override
   Widget build(BuildContext context) {
     final HomeCubit homeCubit = context.read<HomeCubit>();
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
-        return AppPaginatedList(
+        return AppPaginatedGridView(
           items: homeCubit.pageVariables.filteredList,
           itemBuilder: (context, index) {
-            return ProductCardList(
+            return ProductCardGrid(
               product: homeCubit.pageVariables.filteredList[index],
             );
           },

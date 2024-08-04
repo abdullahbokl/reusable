@@ -26,7 +26,7 @@ class GetProductsParams {
   final String select;
 
   const GetProductsParams({
-    this.limit = 10,
+    this.limit = 20,
     this.skip = 0,
     this.select =
         'id,title,price,description,category,rating,tags,brand,thumbnail',

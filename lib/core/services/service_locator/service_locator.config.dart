@@ -18,6 +18,8 @@ import 'package:shared_preferences/shared_preferences.dart' as _i460;
 import '../../../features/home/data/data_sources/home_datasource.dart' as _i877;
 import '../../../features/home/data/repositories/home_repo_impl.dart' as _i120;
 import '../../../features/home/domain/repositories/home_repo.dart' as _i397;
+import '../../../features/home/domain/use_cases/get_categories_use_case.dart'
+    as _i11;
 import '../../../features/home/domain/use_cases/get_products_use_case.dart'
     as _i631;
 import '../../../features/home/presentation/manager/home_cubit.dart' as _i682;
@@ -55,10 +57,14 @@ _i174.GetIt $initGetIt(
       () => _i877.HomeDatasourceImpl(gh<_i124.ApiServices>()));
   gh.lazySingleton<_i397.HomeRepo>(
       () => _i120.HomeRepoImpl(gh<_i877.HomeDatasource>()));
+  gh.lazySingleton<_i11.GetCategoriesUsecase>(
+      () => _i11.GetCategoriesUsecase(gh<_i397.HomeRepo>()));
   gh.lazySingleton<_i631.GetProductsUsecase>(
       () => _i631.GetProductsUsecase(gh<_i397.HomeRepo>()));
-  gh.factory<_i682.HomeCubit>(
-      () => _i682.HomeCubit(gh<_i631.GetProductsUsecase>()));
+  gh.factory<_i682.HomeCubit>(() => _i682.HomeCubit(
+        gh<_i631.GetProductsUsecase>(),
+        gh<_i11.GetCategoriesUsecase>(),
+      ));
   return getIt;
 }
 

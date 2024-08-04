@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 class HomeFilterEntity {
   HomeFilterEntity();
 
-  ValueNotifier<bool?> exampleNotifier = ValueNotifier<bool?>(null);
+  ValueNotifier<String?> categoryNotifier = ValueNotifier<String?>(null);
 
   void clearFilters() {
-    exampleNotifier.value = null;
+    categoryNotifier.value = null;
   }
 
   HomeFilterEntity? _previousState;
 
   void savePreviousState() {
     _previousState = HomeFilterEntity()
-      ..exampleNotifier.value = exampleNotifier.value;
+      ..categoryNotifier.value = categoryNotifier.value;
   }
 
   HomeFilterEntity get returnToPreviousState {
@@ -26,11 +26,11 @@ class HomeFilterEntity {
 
   Iterable<Listenable?> listenables() {
     return [
-      exampleNotifier,
+      categoryNotifier,
     ];
   }
 
   bool checkIfFilterIsNotEmpty() {
-    return exampleNotifier.value != null;
+    return categoryNotifier.value != null;
   }
 }

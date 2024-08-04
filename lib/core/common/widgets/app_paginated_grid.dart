@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_grid/responsive_grid.dart';
 
+import '../../utils/app_dimensions.dart';
 import 'app_loader.dart';
 
-class AppPaginatedList extends StatefulWidget {
+class AppPaginatedGridView extends StatefulWidget {
   final List items;
   final Widget Function(BuildContext, int) itemBuilder;
   final bool isLoading;
@@ -12,7 +14,7 @@ class AppPaginatedList extends StatefulWidget {
   final ScrollController? scrollController;
   final Widget Function(BuildContext, int)? separatorBuilder;
 
-  const AppPaginatedList({
+  const AppPaginatedGridView({
     super.key,
     required this.items,
     required this.itemBuilder,
@@ -24,10 +26,10 @@ class AppPaginatedList extends StatefulWidget {
   });
 
   @override
-  State<AppPaginatedList> createState() => _AppPaginatedListState();
+  State<AppPaginatedGridView> createState() => _AppPaginatedGridViewState();
 }
 
-class _AppPaginatedListState extends State<AppPaginatedList> {
+class _AppPaginatedGridViewState extends State<AppPaginatedGridView> {
   late final ScrollController scrollController;
 
   @override
@@ -39,25 +41,18 @@ class _AppPaginatedListState extends State<AppPaginatedList> {
   @override
   Widget build(BuildContext context) {
     final bool showLoading = widget.isLoading && !widget.hasReachedMax;
-    return ListView.separated(
-      cacheExtent: 10,
+    return ResponsiveGridList(
       controller: scrollController
         ..addListener(() {
           if (_doLoadMore()) widget.onLoadMore?.call();
         }),
-      itemCount: widget.items.length + (showLoading ? 1 : 0),
-      itemBuilder: (context, index) {
-        if (index >= widget.items.length) {
-          return const AppLoader();
-        }
-        return widget.itemBuilder(context, index);
-      },
-      separatorBuilder: (context, index) {
-        if (widget.separatorBuilder != null) {
-          return widget.separatorBuilder!.call(context, index);
-        }
-        return const SizedBox(height: 10.0);
-      },
+      desiredItemWidth: AppDimensions.scaleWidth(250),
+      minSpacing: 5,
+      children: [
+        for (int index = 0; index < widget.items.length; index++)
+          widget.itemBuilder(context, index),
+        if (showLoading) const AppLoader(),
+      ],
     );
   }
 

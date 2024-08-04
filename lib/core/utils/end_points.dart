@@ -9,4 +9,5 @@ class _BaseUrls {
 
 class _Products {
   final String getProducts = 'products';
+  final String getCategories = 'products/category-list';
 }

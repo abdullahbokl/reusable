@@ -1,22 +1,29 @@
 part of 'home_cubit.dart';
 
 class HomeState extends Equatable {
-  final BlocStatus<bool> getProductsStatus;
+  final BlocStatus getProductsStatus;
+  final BlocStatus getCategoriesStatus;
 
   const HomeState({
-    this.getProductsStatus = const BlocStatus<bool>.initial(),
+    this.getProductsStatus = const BlocStatus.initial(),
+    this.getCategoriesStatus = const BlocStatus.initial(),
   });
 
   HomeState copyWith({
-    BlocStatus<bool>? getProductsStatus,
+    BlocStatus? getProductsStatus,
+    BlocStatus? getCategoriesStatus,
   }) {
     return HomeState(
       getProductsStatus: getProductsStatus ?? this.getProductsStatus,
+      getCategoriesStatus: getCategoriesStatus ?? this.getCategoriesStatus,
     );
   }
 
   @override
   List<Object> get props {
-    return [getProductsStatus];
+    return [
+      getProductsStatus,
+      getCategoriesStatus,
+    ];
   }
 }

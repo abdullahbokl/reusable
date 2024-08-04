@@ -4,11 +4,14 @@ import 'package:reusable/core/errors/base_app_exception.dart';
 import 'package:reusable/core/helpers/response_wrapper.dart';
 import 'package:reusable/core/services/api/api_services.dart';
 import 'package:reusable/core/utils/end_points.dart';
+import 'package:reusable/features/home/domain/use_cases/get_categories_use_case.dart';
 
 import '../../domain/use_cases/get_products_use_case.dart';
 
 abstract class HomeDatasource {
   Future<ResponseWrapper> getProducts(GetProductsParams params);
+
+  Future<ResponseWrapper> getCategories(GetCategoriesParams params);
 }
 
 @LazySingleton(as: HomeDatasource)
@@ -27,7 +30,21 @@ class HomeDatasourceImpl implements HomeDatasource {
 
       return ResponseWrapper.fromJson(response, dataKey: "products");
     } on BaseAppException catch (e) {
-      debugPrint("error in getProducts in HomeDatasourceImpl => $e");
+      debugPrint("error in getProducts in datasource => $e");
+      throw e.message;
+    }
+  }
+
+  @override
+  Future<ResponseWrapper> getCategories(GetCategoriesParams params) async {
+    try {
+      final response = await _api.get(
+        endPoint: EndPoints.products.getCategories,
+      );
+
+      return ResponseWrapper.fromJson(response, dataKey: "categories");
+    } on BaseAppException catch (e) {
+      debugPrint("error in getCategories in datasource => $e");
       throw e.message;
     }
   }
