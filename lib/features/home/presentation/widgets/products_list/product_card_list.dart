@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:reusable/core/utils/app_dimensions.dart';
 import 'package:reusable/core/utils/app_navigator.dart';
 
-import '../../../../core/common/widgets/app_cached_image.dart';
-import '../../../../core/common/widgets/app_text.dart';
-import '../../domain/entities/product_entity.dart';
+import '../../../../../core/common/widgets/app_cached_image.dart';
+import '../../../../../core/common/widgets/app_text.dart';
+import '../../../domain/entities/product_entity.dart';
 
 class ProductCardList extends StatelessWidget {
   const ProductCardList({

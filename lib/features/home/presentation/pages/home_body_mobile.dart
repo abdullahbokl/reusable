@@ -7,8 +7,8 @@ import '../../../../core/common/widgets/app_search_widget.dart';
 import '../manager/home_cubit.dart';
 import '../widgets/filter_products_sheet.dart';
 import '../widgets/products_count.dart';
-import '../widgets/products_paginated_list.dart';
-import '../widgets/shimmer_products_list.dart';
+import '../widgets/products_list/products_paginated_list.dart';
+import '../widgets/products_list/shimmer_products_list.dart';
 import 'animated_bloc_body_builder.dart';
 
 class HomeBodyMobile extends StatelessWidget {

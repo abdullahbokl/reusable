@@ -10,9 +10,10 @@ import '../../../../core/utils/size_config.dart';
 import '../manager/home_cubit.dart';
 import '../widgets/filter_products_sheet.dart';
 import '../widgets/products_count.dart';
-import '../widgets/products_paginated_grid.dart';
-import '../widgets/products_paginated_list.dart';
-import '../widgets/shimmer_products_list.dart';
+import '../widgets/products_grid/products_paginated_grid.dart';
+import '../widgets/products_grid/shimmer_products_grid.dart';
+import '../widgets/products_list/products_paginated_list.dart';
+import '../widgets/products_list/shimmer_products_list.dart';
 import 'animated_bloc_body_builder.dart';
 
 class HomePage extends StatefulWidget {
@@ -90,7 +91,12 @@ class _SupportClientAcceptState extends State<HomePage>
                 builder: (context, state) {
                   return AnimatedBlocBodyBuilder(
                     child: state.getProductsStatus.when(
-                      loading: () => const ShimmerProductsList(),
+                      loading: () {
+                        if (AppDimensions.currentWidth() >= 600) {
+                          return const ShimmerProductsGrid();
+                        }
+                        return const ShimmerProductsList();
+                      },
                       success: (data) {
                         if (AppDimensions.currentWidth() >= 600) {
                           return const ProductsPaginatedGrid();

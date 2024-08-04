@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../../../../core/common/widgets/app_paginated_list.dart';
+import '../../../../../core/common/widgets/app_paginated_grid.dart';
 
-class ShimmerProductsList extends StatelessWidget {
-  const ShimmerProductsList({super.key});
+class ShimmerProductsGrid extends StatelessWidget {
+  const ShimmerProductsGrid({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +18,10 @@ class ShimmerProductsList extends StatelessWidget {
         ],
         stops: const [0.4, 0.5, 0.6],
       ),
-      child: AppPaginatedList(
-        items: List.generate(10, (index) => index),
+      child: AppPaginatedGridView(
+        items: List.generate(50, (index) => index),
         itemBuilder: (context, index) {
-          return const Card(child: SizedBox(height: 90));
+          return const Card(child: SizedBox(height: 180));
         },
       ),
     );
